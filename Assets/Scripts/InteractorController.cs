@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.UI;
 using static UnityEngine.InputSystem.InputAction;
 
 public class InteractorController : MonoBehaviour
@@ -34,6 +35,8 @@ public class InteractorController : MonoBehaviour
         {
             rayInteractor.selectEntered.AddListener(DisableLocomotions);    // 물건을 잡고있는 경우
             rayInteractor.selectExited.AddListener(EnableLocomotions);      // 잡고있는 상태를 풀 경우
+            rayInteractor.uiHoverEntered.AddListener(OnUIHoverEnter);
+            rayInteractor.uiHoverExited.AddListener(OnUIHoverExit);
         }
 
         InputAction teleportModeActivate = this.teleportModeActivate?.action;
@@ -51,6 +54,8 @@ public class InteractorController : MonoBehaviour
         {
             rayInteractor.selectEntered.RemoveListener(DisableLocomotions);
             rayInteractor.selectExited.RemoveListener(EnableLocomotions);
+            rayInteractor.uiHoverEntered.RemoveListener(OnUIHoverEnter);
+            rayInteractor.uiHoverExited.RemoveListener(OnUIHoverExit);
         }
 
         InputAction teleportModeActivate = this.teleportModeActivate?.action;
@@ -86,6 +91,22 @@ public class InteractorController : MonoBehaviour
         InputAction teleportModeActivate = this.teleportModeActivate?.action;
         if (teleportModeActivate != null)
             teleportModeActivate.Disable();
+    }
+
+    private void OnUIHoverEnter(UIHoverEventArgs args)
+    {
+        foreach(var provider in locomotions)
+        {
+            provider.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnUIHoverExit(UIHoverEventArgs args)
+    {
+        foreach (var provider in locomotions)
+        {
+            provider.gameObject.SetActive(true);
+        }
     }
 
     private void OnStartTeleport(CallbackContext context)

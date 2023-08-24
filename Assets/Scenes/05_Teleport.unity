@@ -1847,7 +1847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f20589ff9587a47a84929a524f36f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directInteractor: {fileID: 0}
+  directInteractor: {fileID: 1931461343}
   rayInteractor: {fileID: 50088709}
   teleportInteractor: {fileID: 0}
   locomotions:
